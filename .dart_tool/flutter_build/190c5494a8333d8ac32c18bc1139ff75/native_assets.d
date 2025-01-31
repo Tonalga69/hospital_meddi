@@ -1,0 +1,1 @@
+ C:\\Users\\52331\\Documents\\GitHub\\hospital_meddi\\.dart_tool\\flutter_build\\190c5494a8333d8ac32c18bc1139ff75\\native_assets.yaml: 
