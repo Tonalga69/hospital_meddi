@@ -68,6 +68,18 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "dio",
+      "rootUri": "file:///C:/Users/52331/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.8.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "dio_web_adapter",
+      "rootUri": "file:///C:/Users/52331/AppData/Local/Pub/Cache/hosted/pub.dev/dio_web_adapter-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "encrypt",
       "rootUri": "file:///C:/Users/52331/AppData/Local/Pub/Cache/hosted/pub.dev/encrypt-5.0.3",
       "packageUri": "lib/",
@@ -144,6 +156,12 @@
       "rootUri": "file:///C:/Users/52331/AppData/Local/Pub/Cache/hosted/pub.dev/go_router-14.7.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///C:/Users/52331/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "hugeicons",
@@ -380,7 +398,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-01-31T23:24:14.922564Z",
+  "generated": "2025-02-01T01:50:36.094566Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///C:/scr/flutter",

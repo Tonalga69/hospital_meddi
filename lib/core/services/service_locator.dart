@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:hospitales_meddi/core/config/api_service.dart';
+import 'package:hospitales_meddi/core/services/api_service.dart';
+import 'package:hospitales_meddi/core/services/local_database_service.dart';
 
 class ServiceLocator {
   static final ServiceLocator _instance = ServiceLocator._internal();
@@ -8,5 +9,6 @@ class ServiceLocator {
 
   ServiceLocator._internal(){
     _getIt.registerLazySingleton(() => ApiService());
+    _getIt.registerLazySingleton(() => LocalDatabaseService());
   }
 }

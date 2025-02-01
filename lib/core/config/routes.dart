@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/pages/login/page.dart';
 
 GoRouter routes = GoRouter(routes: [
   GoRoute(path: Routes.login,
     builder: (context, state) {
-      return Scaffold();
+      return const LoginPage();
     }
   ),
   GoRoute(
