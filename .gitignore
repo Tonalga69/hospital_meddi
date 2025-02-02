@@ -7,6 +7,11 @@
 .pub-cache/
 .pub/
 /build/
+/captures/
+/dev/
+/doc/api/
+/.dart_tool/
+/.flutter-plugins
 .cocoon/
 
 # iOS
@@ -29,6 +34,7 @@ android/key.properties
 # IntelliJ/Android Studio
 .idea/
 *.iml
+
 
 # macOS
 macos/Flutter/ephemeral/
