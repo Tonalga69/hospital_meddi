@@ -13,5 +13,9 @@ class LocalDatabaseService {
       databaseInstance = EncryptedSharedPreferencesAsync.getInstance();
   }
 
+  Future<String?> getUserToken() async {
+    return await databaseInstance.getString('token');
+  }
+
 
 }

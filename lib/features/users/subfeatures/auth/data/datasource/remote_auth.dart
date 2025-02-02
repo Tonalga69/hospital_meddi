@@ -1,34 +1,45 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:hospitales_meddi/core/services/api_service.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/login_dto.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/sign_up_dto.dart';
+import 'package:hospitales_meddi/features/users/subfeatures/auth/domain/exceptions/auth_exception.dart';
 
-class RemoteUserDataSource {
+class RemoteAuthDataSource {
   late final Dio _dio;
   final ApiService _apiService;
 
-  RemoteUserDataSource({Dio? dio, required ApiService apiService})
+  RemoteAuthDataSource({Dio? dio, required ApiService apiService})
       : _apiService = apiService {
     _dio = dio ?? Dio();
   }
 
-  Future<String> login(LoginDto loginDto) async {
+  Future<Either<String, AuthException>> login(LoginDto loginDto) async {
     try {
       final result = await _dio.post('${_apiService.baseUrl}/user/login',
           data: loginDto.toJson());
-      return result.data['token'];
+      return Left(result.data['token']);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<bool> signUp(SignUpDto dto) async {
+  Future<Either<SignUpDto, AuthException>> signUp(SignUpDto dto) async {
     try {
       final result = await _dio.post('${_apiService.baseUrl}/user/signup',
           data: dto.toJson());
-      return result.statusCode == 200 || result.statusCode == 201;
+      if (result.statusCode == 400) {
+        return Right(AuthException(result.data['data']['message'].toString()));
+      }
+      if (result.statusCode == 500) {
+        return Right(AuthException("Server error"));
+      }
+      if (result.statusCode == 200) {
+        return Left(dto);
+      }
+      return Right(AuthException("Unknown error"));
     } catch (e) {
-      return false;
+      return Right(AuthException("Unknown error"));
     }
   }
 }

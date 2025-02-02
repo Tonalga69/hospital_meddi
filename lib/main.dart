@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-
     );
   }
 }
