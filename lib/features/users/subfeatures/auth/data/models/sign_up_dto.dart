@@ -1,6 +1,7 @@
 import 'package:hospitales_meddi/core/abstractions/model.dart';
+import 'package:hospitales_meddi/features/users/subfeatures/auth/domain/entities/sign_up.dart';
 
-class SignUpDto extends CoreModel{
+class SignUpDto extends CoreModel<SignUpDtoEntity>{
   final String username;
   final String password;
   final String name;
@@ -23,8 +24,8 @@ class SignUpDto extends CoreModel{
   }
 
   @override
-  SignUpDto toEntity() {
-    return SignUpDto(
+  SignUpDtoEntity toEntity() {
+    return SignUpDtoEntity(
       username: username,
       password: password,
       name: name,

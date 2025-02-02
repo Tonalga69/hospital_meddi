@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hospitales_meddi/core/config/routes.dart';
 import 'package:hospitales_meddi/core/presentation/widgets/appbar.dart';
@@ -7,6 +9,10 @@ import 'package:hospitales_meddi/core/utils/colors.dart';
 import 'package:hospitales_meddi/core/utils/global_values.dart';
 import 'package:hospitales_meddi/core/utils/regex.dart';
 import 'package:hugeicons/hugeicons.dart';
+
+import '../../blocs/sign_up_bloc.dart';
+import '../../blocs/sign_up_event.dart';
+import '../../blocs/sign_up_state.dart';
 
 class SignUpMobilePage extends StatefulWidget {
   const SignUpMobilePage({super.key});
@@ -19,6 +25,9 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
   final _formKey = GlobalKey<FormState>();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +57,7 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextFormFieldCore(
+                        controller: emailController,
                         validator: (value) {
                           value = value?.trim();
                           if (value == null || value.isEmpty) {
@@ -92,6 +102,8 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
                       ),
                       const SizedBox(height: 16),
                       TextFormFieldCore(
+                        obscureText: true,
+                        maxLines: 1,
                         controller: confirmPasswordController,
                         validator: (value) {
                           value = value?.trim();
@@ -110,7 +122,9 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
                             icon: HugeIcons.strokeRoundedLock,
                             color: iconColor),
                       ),
+                      const SizedBox(height: 16),
                       TextFormFieldCore(
+                        controller: nameController,
                         validator: (value) {
                           value = value?.trim();
                           if (value == null || value.isEmpty) {
@@ -126,6 +140,7 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
                       ),
                       const SizedBox(height: 16),
                       TextFormFieldCore(
+                        controller: phoneController,
                         validator: (value) {
                           value = value?.trim();
                           if (value == null || value.isEmpty) {
@@ -161,14 +176,53 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
                 ),
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+            BlocProvider(
+              create: (context) => GetIt.I.get<SignUpBloc>(),
+              child: BlocListener<SignUpBloc, SignUpState>(
+                listener: (BuildContext context, SignUpState state) {
+                  if (state is SignUpStateSuccess) {
                     context.go(Routes.home);
                   }
+                  if (state is SignUpStateFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.message),
+                    ));
+                  }
                 },
-                child: Text("Registrarse",
-                    style: Theme.of(context).textTheme.labelMedium)),
+                child: BlocBuilder<SignUpBloc, SignUpState>(
+                    builder: (context, state) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      if (state is SignUpStateLoading) {
+                        return;
+                      }
+                      if (_formKey.currentState!.validate()) {
+                        context.read<SignUpBloc>().add(SignUpButtonPressed(
+                              username: emailController.text,
+                              password: passwordController.text,
+                              phone: phoneController.text,
+                              name: nameController.text,
+                            ));
+                      }
+                    },
+                    child: state is! SignUpStateLoading
+                        ? Text(
+                            "Registrarse",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(color: ThemeColors.white),
+                          )
+                        : const Padding(
+                      padding: EdgeInsets.all(kPaddingS),
+                          child: CircularProgressIndicator(
+                              color: ThemeColors.white,
+                            ),
+                        ),
+                  );
+                }),
+              ),
+            ),
           ],
         ),
       ),

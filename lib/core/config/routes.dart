@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/middlewares/auth_middleware.dart';
+import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/middlewares/sign_up_middleware.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/pages/login/page.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/pages/sign_up/sign_up.dart';
 
@@ -18,8 +19,9 @@ GoRouter routes = GoRouter(
           }),
       GoRoute(
         path: Routes.signUp,
+        redirect: SignUpMiddleware.redirect,
         builder: (context, state) {
-          return SignUpPage();
+          return const SignUpPage();
         },
       )
     ],

@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hospitales_meddi/core/services/api_service.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/login_dto.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/sign_up_dto.dart';
@@ -7,39 +9,41 @@ import 'package:hospitales_meddi/features/users/subfeatures/auth/domain/exceptio
 
 class RemoteAuthDataSource {
   late final Dio _dio;
-  final ApiService _apiService;
+  late final ApiService _apiService;
 
-  RemoteAuthDataSource({Dio? dio, required ApiService apiService})
-      : _apiService = apiService {
+  RemoteAuthDataSource({Dio? dio,  ApiService? apiService})
+       {
+    _apiService = apiService ?? GetIt.I.get<ApiService>();
     _dio = dio ?? Dio();
   }
 
-  Future<Either<String, AuthException>> login(LoginDto loginDto) async {
+  Future<Either<AuthException, String>> login(LoginDto loginDto) async {
     try {
       final result = await _dio.post('${_apiService.baseUrl}/user/login',
           data: loginDto.toJson());
-      return Left(result.data['token']);
+      return Right(result.data['token']);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Either<SignUpDto, AuthException>> signUp(SignUpDto dto) async {
+  Future<Either<AuthException, SignUpDto>> signUp(SignUpDto dto) async {
     try {
-      final result = await _dio.post('${_apiService.baseUrl}/user/signup',
+      final result = await _dio.post('${_apiService.baseUrl}/user/create',
           data: dto.toJson());
       if (result.statusCode == 400) {
-        return Right(AuthException(result.data['data']['message'].toString()));
+        return Left(AuthException(result.data['data']['message'].toString()));
       }
       if (result.statusCode == 500) {
-        return Right(AuthException("Server error"));
+        return Left(AuthException("Server error"));
       }
-      if (result.statusCode == 200) {
-        return Left(dto);
+      if (result.statusCode == 200 || result.statusCode==201) {
+        return Right(dto);
       }
-      return Right(AuthException("Unknown error"));
+      return Left(AuthException("Unknown error"));
     } catch (e) {
-      return Right(AuthException("Unknown error"));
+      debugPrint(e.toString());
+      return Left(AuthException("Unknown error"));
     }
   }
 }
