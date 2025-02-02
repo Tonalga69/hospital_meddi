@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospitales_meddi/core/config/routes.dart';
 import 'package:hospitales_meddi/core/config/themes.dart';
+import 'package:hospitales_meddi/core/services/service_locator.dart';
 
 void main() async {
   await dotenv.load();
+  ServiceLocator.instance;
   runApp(const MyApp());
 }
 

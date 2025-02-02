@@ -6,9 +6,7 @@ class LocalAuthDataStore {
   late EncryptedSharedPreferencesAsync databaseInstance;
   late String _currentKey = "default";
 
-  LocalAuthDataStore(
-      {String? currentKey, EncryptedSharedPreferencesAsync? databaseInstance}) {
-    this.databaseInstance = databaseInstance ?? this.databaseInstance;
+  LocalAuthDataStore({String? currentKey}) {
     _currentKey = currentKey ?? _currentKey;
   }
 
