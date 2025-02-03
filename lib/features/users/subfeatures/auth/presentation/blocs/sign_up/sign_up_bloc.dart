@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/domain/entities/sign_up.dart';
-import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/blocs/sign_up_event.dart';
-import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/blocs/sign_up_state.dart';
+import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/blocs/sign_up/sign_up_event.dart';
+import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/blocs/sign_up/sign_up_state.dart';
 
-import '../../domain/usecases/sign_up.dart';
+import '../../../domain/usecases/sign_up.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   late final SignUpUseCase signUpUseCase;

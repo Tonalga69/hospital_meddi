@@ -21,7 +21,14 @@ class RemoteAuthDataSource {
     try {
       final result = await _dio.post('${_apiService.baseUrl}/user/login',
           data: loginDto.toJson());
-      return Right(result.data['token']);
+      if(result.statusCode==500){
+        return Left(AuthException("Server error"));
+      }
+      if (result.statusCode != 200) {
+        return Left(AuthException("Correo o contraseña incorrectos"));
+      }
+      return Right(result.data['data']["jwtToken"]);
+
     } catch (e) {
       rethrow;
     }

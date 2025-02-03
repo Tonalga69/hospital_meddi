@@ -22,15 +22,15 @@ class LocalAuthDataStore {
         (await databaseInstance.getKeys()).toList();
     List<LoginDto> accounts = [];
     for (var account in accountNames) {
-      final List<String> accountsData =
-          (await databaseInstance.getStringList(account))!;
-      accounts.add(LoginDto(username: account, password: accountsData.first));
+      final password =
+          (await databaseInstance.getString(account))!;
+      accounts.add(LoginDto(username: account, password: password));
     }
     return accounts;
   }
 
-  Future<void> saveAccount(LoginDto loginDto, String token) async {
+  Future<void> saveAccount(LoginDto loginDto) async {
     await databaseInstance
-        .setStringList(loginDto.username, [loginDto.password, token]);
+        .setString(loginDto.username, loginDto.password);
   }
 }

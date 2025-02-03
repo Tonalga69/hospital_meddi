@@ -1,21 +1,26 @@
 import 'package:encrypt_shared_preferences/provider.dart';
+import 'package:hospitales_meddi/features/users/data/datasource/local_user.dart';
 
 class LocalDatabaseService {
-  late EncryptedSharedPreferencesAsync databaseInstance;
-  late String _currentKey;
+  late EncryptedSharedPreferencesAsync _databaseInstance;
+   EncryptedSharedPreferencesAsync get databaseInstance => _databaseInstance;
 
-  LocalDatabaseService({required String currentKey}){
-    _currentKey = currentKey;
+  /// Inject the instance of EncryptedSharedPreferencesAsync for testing purposes
+  /// This Method shouldn't be used before registering [LocalUserDataSource] in the service locator
+  init(String key, {EncryptedSharedPreferencesAsync? instance}) async {
+    if(instance != null){
+      _databaseInstance = instance;
+      return;
+    }
+    await EncryptedSharedPreferencesAsync.initialize(key);
+      _databaseInstance = EncryptedSharedPreferencesAsync.getInstance();
   }
 
-  init() async {
-    await EncryptedSharedPreferencesAsync.initialize(_currentKey);
-      databaseInstance = EncryptedSharedPreferencesAsync.getInstance();
-  }
 
-  Future<String?> getUserToken() async {
-    return await databaseInstance.getString('token');
-  }
+
+
+
+
 
 
 }
