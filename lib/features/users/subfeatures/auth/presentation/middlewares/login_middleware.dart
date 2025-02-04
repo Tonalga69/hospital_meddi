@@ -9,11 +9,11 @@ import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/bl
 abstract class LoginMiddleware {
   static FutureOr<String?> Function(BuildContext, GoRouterState)? redirect =
       (context, state){
-    if(GetIt.I.isRegistered<LoginUseCase>()){
-      GetIt.I.unregister<LoginUseCase>();
+    if(!GetIt.I.isRegistered<LoginUseCase>()){
+      GetIt.I.registerSingleton(LoginUseCase());
     }
-    if(GetIt.I.isRegistered<LoginBloc>()){
-      GetIt.I.unregister<LoginBloc>();
+    if(!GetIt.I.isRegistered<LoginBloc>()){
+       GetIt.I.registerSingleton(LoginBloc());
     }
 
     return null;

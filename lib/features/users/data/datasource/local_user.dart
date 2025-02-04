@@ -4,7 +4,7 @@ import 'package:hospitales_meddi/core/services/local_database_service.dart';
 import 'package:hospitales_meddi/features/users/data/models/user.dart';
 
 class LocalUserDataSource {
-  late final EncryptedSharedPreferencesAsync _databaseInstance;
+  late EncryptedSharedPreferencesAsync _databaseInstance;
 
   LocalUserDataSource(
       {EncryptedSharedPreferencesAsync? encryptedSharedPreferences}) {

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hospitales_meddi/core/injection/service_locator.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/datasource/remote_auth.dart';
@@ -38,14 +39,20 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Either<AuthException, void>> login(LoginDto loginDto) async {
-    final result = await _remoteAuthDataSource.login(loginDto);
-    return result.fold(
-      (l) => Left(l), // Return the error directly
-      (token) async {
-        await _localAuthDataStore.saveAccount(loginDto);
-        await ServiceLocator.instanceLocalDatabaseService(loginDto.username, token);
-        return const Right(null);
-      },
-    );
+    try {
+      final result = await _remoteAuthDataSource.login(loginDto);
+      return result.fold(
+        (l) => Left(l), // Return the error directly
+        (token) async {
+          await _localAuthDataStore.saveAccount(loginDto);
+          await ServiceLocator.instanceLocalDatabaseService(
+              loginDto.username, token);
+          return const Right(null);
+        },
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      return Left(AuthException("Las credenciales son incorrectas"));
+    }
   }
 }
