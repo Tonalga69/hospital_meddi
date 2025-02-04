@@ -20,4 +20,14 @@ class UserRepositoryImpl extends UserRepository{
   Future<void> saveUser(User user) {
     return _localUserDataSource.saveUser(user);
   }
+
+  @override
+  Future<String> getToken() {
+    return _localUserDataSource.getUserToken();
+  }
+
+  @override
+  Future<void> saveToken(String token) {
+    return _localUserDataSource.saveUserToken(token);
+  }
 }
