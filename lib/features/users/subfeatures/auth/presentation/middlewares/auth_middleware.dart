@@ -12,17 +12,14 @@ class AuthMiddleware {
   static FutureOr<String?> Function(BuildContext, GoRouterState)? redirect =
       (context, state) async {
     if (!GetIt.I.isRegistered<LocalAuthDataStore>()) {
-       GetIt.I.registerSingletonAsync(() async {
-        final localAuthDataStore = LocalAuthDataStore();
-        await localAuthDataStore.init();
-        return localAuthDataStore;
-      });
+        GetIt.I.registerSingleton(LocalAuthDataStore());
+        await GetIt.I<LocalAuthDataStore>().init();
     }
     if (!GetIt.I.isRegistered<RemoteAuthDataSource>()) {
       GetIt.I.registerSingleton(RemoteAuthDataSource());
     }
     if (!GetIt.I.isRegistered<AuthRepositoryImpl>()) {
-      GetIt.I.registerLazySingleton(() => AuthRepositoryImpl());
+      GetIt.I.registerSingleton(AuthRepositoryImpl());
     }
     return null;
   };

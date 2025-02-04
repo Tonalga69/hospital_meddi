@@ -1,68 +1,64 @@
-# Flutter-specific files
+# Misc
+*.lock
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+*.idea/
+
+# VSCode
+.vscode/
+
+# Flutter / Dart Tooling
 .dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.metadata
 .packages
 .pub-cache/
 .pub/
-/build/
-/captures/
-/dev/
-/doc/api/
-/.dart_tool/
-/.flutter-plugins
-.cocoon/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.ios/
+.android/
 
-# iOS
-ios/Flutter/.last_build_id
+# Flutter build outputs
+# The build folder can contain platform-specific builds (e.g., Android .apk/.aab)
+**/build/
+coverage/
+
+# iOS/Android specific
 ios/Pods/
-ios/.symlinks/
+ios/Flutter/Flutter.podspec
 ios/Flutter/Generated.xcconfig
-ios/Flutter/App.framework
-ios/Flutter/Flutter.framework
-ios/Flutter/flutter_export_environment.sh
-
-# Android
+ios/Runner.xcworkspace/
 android/.gradle/
-android/app/debug.keystore
-android/key.properties
+android/app/*.keystore
 
-# VS Code
-.vscode/
+# Web
+web/generated_plugin_registrant.dart
+web/manifest.json
+web/flutter_service_worker.js
+web/canvaskit/
 
-# IntelliJ/Android Studio
-.idea/
-*.iml
-
+# Windows
+windows/runner/GeneratedPluginRegistrant.*
+windows/flutter/ephemeral/
 
 # macOS
 macos/Flutter/ephemeral/
-macos/.generated/
-
-# Web
-web/.dart_tool/
-
-# Windows
-windows/Flutter/ephemeral/
+macos/Runner/GeneratedPluginRegistrant.*
 
 # Linux
 linux/flutter/ephemeral/
+linux/runner/GeneratedPluginRegistrant.*
 
-# Firebase
-firebase_app_id_file.json
+# Don't commit secrets or sensitive files
+*.env
+.env.*
 
-# Google Services
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
-
-# JetBrains IDEs
-*.ipr
-*.iws
-*.bak
-*.swp
-
-
-*.rbc
-*.fyc
-.env

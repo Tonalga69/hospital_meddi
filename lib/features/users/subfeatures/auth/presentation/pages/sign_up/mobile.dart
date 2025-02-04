@@ -10,9 +10,9 @@ import 'package:hospitales_meddi/core/utils/global_values.dart';
 import 'package:hospitales_meddi/core/utils/regex.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import '../../blocs/sign_up_bloc.dart';
-import '../../blocs/sign_up_event.dart';
-import '../../blocs/sign_up_state.dart';
+import '../../blocs/sign_up/sign_up_bloc.dart';
+import '../../blocs/sign_up/sign_up_event.dart';
+import '../../blocs/sign_up/sign_up_state.dart';
 
 class SignUpMobilePage extends StatefulWidget {
   const SignUpMobilePage({super.key});

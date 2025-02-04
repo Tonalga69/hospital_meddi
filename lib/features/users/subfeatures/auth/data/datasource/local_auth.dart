@@ -1,4 +1,5 @@
 import 'package:encrypt_shared_preferences/provider.dart';
+import 'package:hospitales_meddi/core/config/encription.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/login_dto.dart';
 
 ///This class is responsible for storing the user's authentication data locally.
@@ -12,7 +13,7 @@ class LocalAuthDataStore {
 
   /// There's no need to call this method if testing
   Future<void> init() async {
-    await EncryptedSharedPreferencesAsync.initialize(_currentKey);
+    await EncryptedSharedPreferencesAsync.initialize(_currentKey, encryptor: CustomSalsa20Encryptor());
     databaseInstance = EncryptedSharedPreferencesAsync.getInstance();
   }
 
@@ -22,15 +23,15 @@ class LocalAuthDataStore {
         (await databaseInstance.getKeys()).toList();
     List<LoginDto> accounts = [];
     for (var account in accountNames) {
-      final List<String> accountsData =
-          (await databaseInstance.getStringList(account))!;
-      accounts.add(LoginDto(username: account, password: accountsData.first));
+      final password =
+          (await databaseInstance.getString(account))!;
+      accounts.add(LoginDto(username: account, password: password));
     }
     return accounts;
   }
 
-  Future<void> saveAccount(LoginDto loginDto, String token) async {
+  Future<void> saveAccount(LoginDto loginDto) async {
     await databaseInstance
-        .setStringList(loginDto.username, [loginDto.password, token]);
+        .setString(loginDto.username, loginDto.password);
   }
 }

@@ -4,7 +4,7 @@ import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/sig
 import 'package:hospitales_meddi/features/users/subfeatures/auth/domain/exceptions/auth_exception.dart';
 
 abstract class AuthRepository {
-  Future<void> login(LoginDto loginDto);
+  Future<Either<AuthException, void>> login(LoginDto loginDto);
 
   Future<Either<AuthException, SignUpDto>> signUp(SignUpDto signUpDto);
 
