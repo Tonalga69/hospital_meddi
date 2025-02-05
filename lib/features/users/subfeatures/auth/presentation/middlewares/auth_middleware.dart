@@ -13,7 +13,6 @@ class AuthMiddleware {
       (context, state) async {
     if (!GetIt.I.isRegistered<LocalAuthDataStore>()) {
         GetIt.I.registerSingleton(LocalAuthDataStore());
-        await GetIt.I<LocalAuthDataStore>().init();
     }
     if (!GetIt.I.isRegistered<RemoteAuthDataSource>()) {
       GetIt.I.registerSingleton(RemoteAuthDataSource());

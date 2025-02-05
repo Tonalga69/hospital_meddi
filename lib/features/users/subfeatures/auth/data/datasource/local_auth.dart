@@ -1,21 +1,17 @@
 import 'package:encrypt_shared_preferences/provider.dart';
-import 'package:hospitales_meddi/core/config/encription.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hospitales_meddi/core/services/local_database_service.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/models/login_dto.dart';
 
 ///This class is responsible for storing the user's authentication data locally.
 class LocalAuthDataStore {
   late EncryptedSharedPreferencesAsync databaseInstance;
-  late String _currentKey = "default";
 
-  LocalAuthDataStore({String? currentKey}) {
-    _currentKey = currentKey ?? _currentKey;
+  LocalAuthDataStore({EncryptedSharedPreferencesAsync? dataBaseInstance}) {
+    databaseInstance=dataBaseInstance?? GetIt.I.get<LocalDatabaseService>().databaseInstance;
   }
 
-  /// There's no need to call this method if testing
-  Future<void> init() async {
-    await EncryptedSharedPreferencesAsync.initialize(_currentKey, encryptor: CustomSalsa20Encryptor());
-    databaseInstance = EncryptedSharedPreferencesAsync.getInstance();
-  }
+
 
   /// Since the server doesn't provide a refresh token, I store the user's credentials locally.
   Future<List<LoginDto>> getAllAccounts() async {

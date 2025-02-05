@@ -12,10 +12,6 @@ class LocalUserDataSource {
         GetIt.instance<LocalDatabaseService>().databaseInstance;
   }
 
-  set databaseInstance(EncryptedSharedPreferencesAsync instance) {
-    _databaseInstance = instance;
-  }
-
   Future<String> getUserToken() async {
     return (await _databaseInstance.getString('token'))!;
   }

@@ -12,7 +12,7 @@ class UserCubit extends Cubit<UserEntity?> {
   }
 
   void getUser() async {
-    final user = await _getUserUseCase();
+    final user = await _getUserUseCase.call();
     emit(user);
   }
 }
