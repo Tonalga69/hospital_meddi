@@ -15,7 +15,7 @@ class _HomeMobilePageState extends State<HomeMobilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: DrawerHome(),
+        drawer: const DrawerHome(),
         appBar: const AppbarCore(),
         body: Column(
           children: [
