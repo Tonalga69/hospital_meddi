@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hospitales_meddi/core/config/routes.dart';
 import 'package:hospitales_meddi/core/presentation/widgets/appbar.dart';
@@ -177,7 +176,7 @@ class _SignUpMobilePageState extends State<SignUpMobilePage> {
               ),
             ),
             BlocProvider(
-              create: (context) => GetIt.I.get<SignUpBloc>(),
+              create: (context) => SignUpBloc(),
               child: BlocListener<SignUpBloc, SignUpState>(
                 listener: (BuildContext context, SignUpState state) {
                   if (state is SignUpStateSuccess) {

@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hospitales_meddi/core/services/api_service.dart';
 import 'package:hospitales_meddi/features/hospitals/data/models/get_hospital_params.dart';
@@ -41,9 +40,15 @@ class RemoteHospitalDataSource {
         return Left(UnauthorizedException(
             "Parece que necesitas iniciar sesión de nuevo"));
       }
-      debugPrint(result.data.toString());
       return Right(result.data["data"]["data"]);
-    } on Exception catch (e) {
+
+    } on DioException catch (e) {
+       if(e.response?.statusCode==401){
+          return Left(UnauthorizedException("Se necesita iniciar sesión de nuevo"));
+       }
+       return Left(HospitalException(
+           message: "Error desconocido", debugMessage: e.toString()));
+    }on Exception catch (e) {
       return Left(HospitalException(
           message: "Error desconocido", debugMessage: e.toString()));
     }

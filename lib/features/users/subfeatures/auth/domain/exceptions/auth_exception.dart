@@ -15,7 +15,7 @@ class AuthException implements Exception {
 
 class UnauthorizedException extends AuthException {
   UnauthorizedException(super.message, {super.debugMessage}) {
-    NavigationService.push("${Routes.auth}/${Routes.login}");
+    NavigationService.go("${Routes.auth}${Routes.login}");
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,

@@ -5,12 +5,12 @@ import 'package:hospitales_meddi/features/hospitals/data/models/get_hospital_par
 import 'package:hospitales_meddi/features/hospitals/domain/entities/hospital.dart';
 import 'package:hospitales_meddi/features/hospitals/domain/usecases/get_hospitals.dart';
 
-class GetHospitals extends Cubit<List<HospitalEntity>> {
+class GetHospitalsCubit extends Cubit<List<HospitalEntity>> {
   late final GetHospitalsUseCase _getHospitalsUseCase;
   GetHospitalParams params = GetHospitalParams();
   bool _canLoadMore = true;
 
-  GetHospitals({GetHospitalsUseCase? getHospitalsUseCase}) : super([]) {
+  GetHospitalsCubit({GetHospitalsUseCase? getHospitalsUseCase}) : super([]) {
     _getHospitalsUseCase =
         getHospitalsUseCase ?? GetIt.I.get<GetHospitalsUseCase>();
     getHospitals(params);
@@ -18,7 +18,6 @@ class GetHospitals extends Cubit<List<HospitalEntity>> {
 
   Future<void> getHospitals(GetHospitalParams params) async {
     final result = await _getHospitalsUseCase.call(params);
-    result.fold((l) => debugPrint(l.toString()), (r)=> debugPrint(r.length.toString()));
     result.fold((l) => emit([]), (r) => emit(r));
   }
 

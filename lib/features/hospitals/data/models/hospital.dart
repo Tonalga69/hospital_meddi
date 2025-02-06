@@ -53,7 +53,7 @@ class Hospital extends CoreModel<HospitalEntity> {
       enabled: json['enabled'],
       telephone: json['telefono'],
       schedule: json['horario'],
-      stateCode: json['estadoCode']?? null,
+      stateCode: json['estadoCode'],
       municipality: json['municipio'],
       observations: json['observaciones'] ?? '',
       location: Location.fromJson(json['location']),
