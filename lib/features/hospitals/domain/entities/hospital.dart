@@ -14,14 +14,14 @@ class HospitalEntity extends CoreEntity<Hospital> {
   final bool enabled;
   final String telephone;
   final String schedule;
-  final String stateCode;
+  final String? stateCode;
   final String municipality;
   final String observations;
-  final Location location;
+  final Location? location;
   final List<int> insurance;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final Distance dist;
+  final Distance? dist;
 
   HospitalEntity(
       {required this.id,

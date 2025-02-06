@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hospitales_meddi/features/hospitals/data/datasource/remote_hospital_data_source.dart';
+import 'package:hospitales_meddi/features/hospitals/data/repositories/hospital_repository_impl.dart';
+import 'package:hospitales_meddi/features/hospitals/domain/usecases/get_hospitals.dart';
+import 'package:hospitales_meddi/features/hospitals/presentation/blocs/get_hospitals.dart';
 import 'package:hospitales_meddi/features/users/data/repositories/user_repository_impl.dart';
 import 'package:hospitales_meddi/features/users/domain/usecases/get_token.dart';
 import 'package:hospitales_meddi/features/users/domain/usecases/get_user.dart';
@@ -15,6 +19,16 @@ abstract class HomeMiddleware {
   if(!GetIt.I.isRegistered<UserRepositoryImpl>()){
     GetIt.I.registerSingleton<UserRepositoryImpl>(UserRepositoryImpl());
   }
+  if(!GetIt.I.isRegistered<RemoteHospitalDataSource>()){
+    GetIt.I.registerSingleton(RemoteHospitalDataSource());
+  }
+  if(!GetIt.I.isRegistered<HospitalRepositoryImpl>()){
+    GetIt.I.registerSingleton(HospitalRepositoryImpl());
+  }
+  if(!GetIt.I.isRegistered<GetHospitalsUseCase>()){
+    GetIt.I.registerSingleton(GetHospitalsUseCase());
+  }
+
   if(!GetIt.I.isRegistered<GetUserUseCase>()){
     GetIt.I.registerSingleton<GetUserUseCase>(GetUserUseCase());
   }
@@ -27,6 +41,9 @@ abstract class HomeMiddleware {
 
   if(!GetIt.I.isRegistered<UserCubit>()){
     GetIt.I.registerSingleton<UserCubit>(UserCubit());
+  }
+  if(!GetIt.I.isRegistered<GetHospitals>()){
+    GetIt.I.registerSingleton<GetHospitals>(GetHospitals());
   }
 
   return null;

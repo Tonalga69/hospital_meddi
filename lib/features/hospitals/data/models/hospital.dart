@@ -3,7 +3,7 @@ import 'package:hospitales_meddi/features/hospitals/data/models/distance.dart';
 import 'package:hospitales_meddi/features/hospitals/data/models/location.dart';
 import 'package:hospitales_meddi/features/hospitals/domain/entities/hospital.dart';
 
-class Hospital extends CoreModel<HospitalEntity>{
+class Hospital extends CoreModel<HospitalEntity> {
   final String id;
   final String name;
   final String photo;
@@ -13,14 +13,14 @@ class Hospital extends CoreModel<HospitalEntity>{
   final bool enabled;
   final String telephone;
   final String schedule;
-  final String stateCode;
+  final String? stateCode;
   final String municipality;
   final String observations;
-  final Location location;
+  final Location? location;
   final List<int> insurance;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final Distance dist;
+  final Distance? dist;
 
   Hospital({
     required this.id,
@@ -53,21 +53,37 @@ class Hospital extends CoreModel<HospitalEntity>{
       enabled: json['enabled'],
       telephone: json['telefono'],
       schedule: json['horario'],
-      stateCode: json['estadoCode'],
+      stateCode: json['estadoCode']?? null,
       municipality: json['municipio'],
       observations: json['observaciones'] ?? '',
       location: Location.fromJson(json['location']),
       insurance: List<int>.from(json['aseguradora']),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
-      dist: Distance.fromJson(json['dist']),
+      dist: json['dist'] != null ? Distance.fromJson(json['dist']) : null,
     );
   }
 
   @override
   HospitalEntity toEntity() {
-    // TODO: implement toEntity
-    throw UnimplementedError();
+    return HospitalEntity(
+      id: id,
+      name: name,
+      photo: photo,
+      logo: logo,
+      address: address,
+      urlGoogleMaps: urlGoogleMaps,
+      enabled: enabled,
+      telephone: telephone,
+      schedule: schedule,
+      stateCode: stateCode,
+      municipality: municipality,
+      observations: observations,
+      location: location,
+      insurance: insurance,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      dist: dist,
+    );
   }
 }
-
