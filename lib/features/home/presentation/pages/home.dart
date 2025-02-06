@@ -4,6 +4,7 @@ import 'package:hospitales_meddi/core/presentation/widgets/responsive_builder.da
 import 'package:hospitales_meddi/features/home/presentation/pages/mobile.dart';
 import 'package:hospitales_meddi/features/home/presentation/pages/tablet.dart';
 import 'package:hospitales_meddi/features/hospitals/presentation/blocs/get_hospitals.dart';
+import 'package:hospitales_meddi/features/hospitals/subfeatures/request/presentation/blocs/request_list.dart';
 
 import '../../../users/presentation/blocs/user.dart';
 
@@ -15,7 +16,8 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => GetHospitalsCubit()),
-        BlocProvider(create: (context) => UserCubit())
+        BlocProvider(create: (context) => UserCubit()),
+        BlocProvider(create: (context) => RequestListCubit()),
       ],
       child: ResponsiveBuilder(
           mobileBuilder: (context) => const HomeMobilePage(),
