@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hospitales_meddi/core/config/routes.dart';
+import 'package:hospitales_meddi/core/services/navigation.dart';
 import 'package:hospitales_meddi/features/users/data/datasource/local_user.dart';
 import 'package:hospitales_meddi/features/users/data/models/user.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/data/datasource/remote_auth.dart';
@@ -24,9 +26,8 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async {
+    NavigationService.go("${Routes.auth}${Routes.login}");
   }
 
   @override

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hospitales_meddi/features/users/subfeatures/auth/domain/usecases/login.dart';
-import 'package:hospitales_meddi/features/users/subfeatures/auth/presentation/blocs/login/login_bloc.dart';
 
 abstract class LoginMiddleware {
   static FutureOr<String?> Function(BuildContext, GoRouterState)? redirect =
@@ -12,10 +11,6 @@ abstract class LoginMiddleware {
     if(!GetIt.I.isRegistered<LoginUseCase>()){
       GetIt.I.registerSingleton(LoginUseCase());
     }
-    if(!GetIt.I.isRegistered<LoginBloc>()){
-       GetIt.I.registerSingleton(LoginBloc());
-    }
-
     return null;
       };
 }
