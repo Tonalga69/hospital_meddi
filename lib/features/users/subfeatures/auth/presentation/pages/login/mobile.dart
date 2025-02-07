@@ -27,7 +27,11 @@ class _LoginMobilePageState extends State<LoginMobilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarCore(),
-      body: Padding(
+      body: Container(
+        alignment: Alignment.center,
+        constraints: const BoxConstraints(
+          maxWidth: 600
+        ),
         padding: const EdgeInsets.all(kPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

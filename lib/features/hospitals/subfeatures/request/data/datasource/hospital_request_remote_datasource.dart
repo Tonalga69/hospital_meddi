@@ -28,13 +28,16 @@ class HospitalRequestRemoteDatasource {
         return Left(
             HospitalRequestException("Algo fue mal", result.data.toString()));
       }
-      return Right(CreateHospitalRequestResult.fromJson(result.data));
+      return Right(CreateHospitalRequestResult.fromJson(result.data["data"]["solicitud"]));
     } on DioException catch (e) {
       if (e.response == null) {
         return Left(HospitalRequestException("Algo fue mal", e.message));
       }
       if (e.response!.statusCode == 401) {
         throw UnauthorizedException("Es necesario iniciar sesión de nuevo",debugMessage: e.message);
+      }
+      if (e.response!.statusCode == 400) {
+        throw HospitalRequestException("Parece que ya has hecho todas las solicitudes de hoy");
       }
       if (e.response!.statusCode == 404) {
         return Left(HospitalRequestException("No encontrado", e.message));

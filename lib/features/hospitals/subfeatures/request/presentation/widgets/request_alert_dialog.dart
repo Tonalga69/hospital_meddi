@@ -21,11 +21,13 @@ class RequestAlertDialog extends StatelessWidget {
       child: BlocListener<RequestBloc, RequestState>(
         listener: (context, state) {
           if (state is RequestSuccessState) {
+            Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Se ha solicitado el hospital")),
             );
           }
           if (state is RequestErrorState) {
+            Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
@@ -45,10 +47,12 @@ class RequestAlertDialog extends StatelessWidget {
                 ? SizedBox(
                     height: kIconSizeM,
                     width: kIconSizeM,
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? ThemeColors.white
-                          : ThemeColors.dark,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? ThemeColors.white
+                            : ThemeColors.dark,
+                      ),
                     ),
                   )
                 : const Text("¿Desea solicitar el hospital?"),
