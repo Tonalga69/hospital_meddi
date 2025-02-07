@@ -27,95 +27,104 @@ class _LoginMobilePageState extends State<LoginMobilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarCore(),
-      body: Padding(
-        padding: const EdgeInsets.all(kPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Iniciar Sesión en Meddi',
-              style: TextStyle(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? ThemeColors.white
-                      : ThemeColors.black),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(
+              maxWidth: 600
             ),
-            const SizedBox(height: kPadding),
-            Expanded(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormFieldCore(
-                      controller: _usernameController,
-                      hintText: 'Usuario',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingrese su usuario';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: kPadding),
-                    TextFormFieldCore(
-                      obscureText: true,
-                      maxLines: 1,
-                      controller: _passwordController,
-                      hintText: 'Contraseña',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingrese su contraseña';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: kPadding),
-                    TextButton(
-                        onPressed: () {
-                          context.go("${Routes.auth}${Routes.signUp}");
-                        },
-                        child: Text(
-                          'No tienes cuenta? Registrate',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(color: ThemeColors.lightBlue),
-                        )),
-                  ],
+            padding: const EdgeInsets.all(kPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Iniciar Sesión en Meddi',
+                  style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? ThemeColors.white
+                          : ThemeColors.black),
                 ),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => LoginBloc(),
-              child: BlocListener<LoginBloc, LoginState>(
-                listener: (context, state) {
-                  if (state is LoginSuccess) {
-                    context.go(Routes.home);
-                  }
-                  if (state is LoginFailure) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.message)),
-                    );
-                  }
-                },
-                child: BlocBuilder<LoginBloc,LoginState>(
-                  builder: (context, state) =>  ElevatedButton(
-                      onPressed: () {
-                        if(state is LoginLoading){
-                          return;
-                        }
-                        if (_formKey.currentState!.validate()) {
-                          context.read<LoginBloc>().add(LoginButtonPressed(
-                              email: _usernameController.text.trim(),
-                              password: _passwordController.text.trim())
-                          );
-                        }
-                      },
-                      child: Text('Iniciar Sesión')),
+                const SizedBox(height: kPadding),
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormFieldCore(
+                          controller: _usernameController,
+                          hintText: 'Usuario',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor ingrese su usuario';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: kPadding),
+                        TextFormFieldCore(
+                          obscureText: true,
+                          maxLines: 1,
+                          controller: _passwordController,
+                          hintText: 'Contraseña',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor ingrese su contraseña';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: kPadding),
+                        TextButton(
+                            onPressed: () {
+                              context.go("${Routes.auth}${Routes.signUp}");
+                            },
+                            child: Text(
+                              'No tienes cuenta? Registrate',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(color: ThemeColors.lightBlue),
+                            )),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                BlocProvider(
+                  create: (context) => LoginBloc(),
+                  child: BlocListener<LoginBloc, LoginState>(
+                    listener: (context, state) {
+                      if (state is LoginSuccess) {
+                        context.go(Routes.home);
+                      }
+                      if (state is LoginFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.message)),
+                        );
+                      }
+                    },
+                    child: BlocBuilder<LoginBloc,LoginState>(
+                      builder: (context, state) =>  ElevatedButton(
+                          onPressed: () {
+                            if(state is LoginLoading){
+                              return;
+                            }
+                            if (_formKey.currentState!.validate()) {
+                              context.read<LoginBloc>().add(LoginButtonPressed(
+                                  email: _usernameController.text.trim(),
+                                  password: _passwordController.text.trim())
+                              );
+                            }
+                          },
+                          child: Text('Iniciar Sesión')),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

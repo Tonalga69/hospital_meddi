@@ -4,12 +4,11 @@ import 'package:hospitales_meddi/core/presentation/widgets/appbar.dart';
 import 'package:hospitales_meddi/core/utils/colors.dart';
 import 'package:hospitales_meddi/core/utils/global_values.dart';
 import 'package:hospitales_meddi/features/home/presentation/widgets/drawer.dart';
-import 'package:hospitales_meddi/features/hospitals/domain/entities/hospital.dart';
-import 'package:hospitales_meddi/features/hospitals/presentation/widgets/hospital_item.dart';
-import 'package:hugeicons/hugeicons.dart';
+import 'package:hospitales_meddi/features/hospitals/subfeatures/request/presentation/blocs/request_list.dart';
 
-import '../../../hospitals/presentation/blocs/get_hospitals.dart';
-import '../../../hospitals/presentation/widgets/params_bottom_sheet.dart';
+
+import '../../../hospitals/presentation/pagers/hospitals_list.dart';
+import '../../../hospitals/subfeatures/request/domain/entities/result.dart';
 
 class HomeMobilePage extends StatefulWidget {
   const HomeMobilePage({super.key});
@@ -19,18 +18,6 @@ class HomeMobilePage extends StatefulWidget {
 }
 
 class _HomeMobilePageState extends State<HomeMobilePage> {
-  final ScrollController _controller = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-        context.read<GetHospitalsCubit>().getMoreHospitals();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,41 +25,46 @@ class _HomeMobilePageState extends State<HomeMobilePage> {
         appBar: const AppbarCore(),
         body: Padding(
           padding: const EdgeInsets.all(kPadding),
-          child: Column(
+          child: PageView(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              const HospitalsListSection(),
+              Column(
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        context: context,
-                        builder: (_) {
-                          return BlocProvider.value(
-                              value: context.read<GetHospitalsCubit>(),
-                              child: ParamsBottomSheet());
-                        },
+                  const Text(
+                    "Solicitudes",
+                  ),
+                  Expanded(child: BlocBuilder<RequestListCubit,
+                      List<CreateHospitalRequestResultEntity>>(
+                    builder: (BuildContext context,
+                        List<CreateHospitalRequestResultEntity> state) {
+                      return ListView.builder(
+                        itemCount: state.length,
+                        itemBuilder: (context, index) => Container(
+                            margin:
+                                const EdgeInsets.symmetric(vertical: kPaddingS),
+                            padding: const EdgeInsets.all(kPaddingS),
+                            decoration: BoxDecoration(
+                              color: ThemeColors.darkBlue,
+                              borderRadius:
+                                  BorderRadius.circular(kCornerRadius),
+                            ),
+                            child: Column(
+                              children: [
+                                Text("Id de solicitud: ${state[index].id}"),
+                                Text(
+                                    "Solicitado el: ${state[index].createdAt.toIso8601String()}"),
+                              ],
+                            )),
                       );
                     },
-                    label: const Text("Filtros"),
-                    icon: const HugeIcon(
-                        icon: HugeIcons.strokeRoundedFilter,
-                        color: ThemeColors.white),
-                  )
+                  )),
+                  ElevatedButton(
+                      onPressed: () {
+                        context.read<RequestListCubit>().getRequests();
+                      },
+                      child: const Text("Recargar"))
                 ],
-              ),
-              BlocBuilder<GetHospitalsCubit, List<HospitalEntity>>(
-                builder: (context, state) => Expanded(
-                  child: ListView.builder(
-                    controller: _controller,
-                    itemCount: state.length,
-                    itemBuilder: (context, index) {
-                      return HospitalItem(entity: state[index]);
-                    },
-                  ),
-                ),
-              ),
+              )
             ],
           ),
         ));
